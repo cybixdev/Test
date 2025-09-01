@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: veo3-telegram-bot
+    env: node
+    plan: free
+    rootDir: .
+    buildCommand: 'npm install'
+    startCommand: 'node bot.js'
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: PORT
+        value: 3000

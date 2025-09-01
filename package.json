@@ -1,0 +1,17 @@
+{
+  "name": "veo3-telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for Veo3 AI video generation",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.5",
+    "telegraf": "^4.16.2"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
