@@ -9,50 +9,35 @@ const TELEGRAM_CHANNEL = "https://t.me/cybixtech";
 const YOUTUBE_LINK = "https://youtube.com/howtouse-cybixtech";
 const BOT_LINK = "https://t.me/cybixwebsite_bot";
 
-function ChannelBar() {
+// Small icon bar for bottom
+function IconBar() {
   return (
-    <div className="channel-bar">
-      <a className="channel-btn" href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer">
-        <span className="icon" role="img" aria-label="whatsapp">
-          {/* WhatsApp SVG */}
-          <svg width="22" height="22" viewBox="0 0 32 32">
-            <circle fill="#25D366" cx="16" cy="16" r="16"/>
-            <path fill="#FFF" d="M23.5 19.5c-.4-.2-2.1-1-2.4-1.1-.3-.1-.5-.2-.7.1-.2.2-.8 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.5-1.5-.9-.8-1.5-1.7-1.7-2-.2-.3 0-.5.1-.7.1-.1.2-.3.3-.4.1-.1.1-.2.2-.4.1-.2 0-.4-.1-.6-.1-.2-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4-.2 0-.4 0-.6 0-.2.1-.6.2-.9.6-.3.3-1.1 1.1-1.1 2.7s1.2 3.1 1.4 3.3c.2.2 2.5 3.9 6.2 5 3.6 1.1 3.6.7 4.3.6.7-.1 2.1-1.6 2.4-2.2.3-.6.2-1.1.1-1.2z"/>
-          </svg>
-        </span>
-        WhatsApp
+    <div className="icon-bar">
+      <a className="icon-btn" href={WHATSAPP_CHANNEL} title="WhatsApp" target="_blank" rel="noopener noreferrer">
+        <svg width="22" height="22" viewBox="0 0 32 32">
+          <circle fill="#25D366" cx="16" cy="16" r="16"/>
+          <path fill="#FFF" d="M23.5 19.5c-.4-.2-2.1-1-2.4-1.1-.3-.1-.5-.2-.7.1-.2.2-.8 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.5-1.5-.9-.8-1.5-1.7-1.7-2-.2-.3 0-.5.1-.7.1-.1.2-.3.3-.4.1-.1.1-.2.2-.4.1-.2 0-.4-.1-.6-.1-.2-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4-.2 0-.4 0-.6 0-.2.1-.6.2-.9.6-.3.3-1.1 1.1-1.1 2.7s1.2 3.1 1.4 3.3c.2.2 2.5 3.9 6.2 5 3.6 1.1 3.6.7 4.3.6.7-.1 2.1-1.6 2.4-2.2.3-.6.2-1.1.1-1.2z"/>
+        </svg>
       </a>
-      <a className="channel-btn" href={TELEGRAM_CHANNEL} target="_blank" rel="noopener noreferrer">
-        <span className="icon" role="img" aria-label="telegram">
-          {/* Telegram SVG */}
-          <svg width="22" height="22" viewBox="0 0 32 32">
-            <circle fill="#29b6f6" cx="16" cy="16" r="16"/>
-            <polygon fill="#FFF" points="25,9 7,16 13,18 15,25 18,20 22,21"/>
-          </svg>
-        </span>
-        Telegram
+      <a className="icon-btn" href={TELEGRAM_CHANNEL} title="Telegram" target="_blank" rel="noopener noreferrer">
+        <svg width="22" height="22" viewBox="0 0 32 32">
+          <circle fill="#29b6f6" cx="16" cy="16" r="16"/>
+          <polygon fill="#FFF" points="25,9 7,16 13,18 15,25 18,20 22,21"/>
+        </svg>
       </a>
-      <a className="channel-btn" href={YOUTUBE_LINK} target="_blank" rel="noopener noreferrer">
-        <span className="icon" role="img" aria-label="youtube">
-          {/* YouTube SVG */}
-          <svg width="22" height="22" viewBox="0 0 32 32">
-            <circle fill="#FF0000" cx="16" cy="16" r="16"/>
-            <polygon fill="#FFF" points="13,11 21,16 13,21"/>
-          </svg>
-        </span>
-        YouTube
+      <a className="icon-btn" href={YOUTUBE_LINK} title="YouTube" target="_blank" rel="noopener noreferrer">
+        <svg width="22" height="22" viewBox="0 0 32 32">
+          <circle fill="#FF0000" cx="16" cy="16" r="16"/>
+          <polygon fill="#FFF" points="13,11 21,16 13,21"/>
+        </svg>
       </a>
-      <a className="channel-btn" href={BOT_LINK} target="_blank" rel="noopener noreferrer">
-        <span className="icon" role="img" aria-label="bot">
-          {/* Bot SVG */}
-          <svg width="22" height="22" viewBox="0 0 32 32">
-            <circle fill="#00f3ff" cx="16" cy="16" r="16"/>
-            <path fill="#fff" d="M10 22c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
-            <circle fill="#00ffae" cx="12" cy="14" r="2"/>
-            <circle fill="#00ffae" cx="20" cy="14" r="2"/>
-          </svg>
-        </span>
-        Bot
+      <a className="icon-btn" href={BOT_LINK} title="Telegram Bot" target="_blank" rel="noopener noreferrer">
+        <svg width="22" height="22" viewBox="0 0 32 32">
+          <circle fill="#2c8be6" cx="16" cy="16" r="16"/>
+          <path fill="#fff" d="M10 22c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+          <circle fill="#fff" cx="12" cy="14" r="2"/>
+          <circle fill="#fff" cx="20" cy="14" r="2"/>
+        </svg>
       </a>
     </div>
   );
@@ -62,12 +47,7 @@ function Navbar({ logged, onLogout }) {
   return (
     <div className="navbar">
       <span className="nav-logo">CYBIX TECH</span>
-      <div className="nav-right">
-        <a className="nav-btn" href="/terms" target="_blank" rel="noopener noreferrer">Terms</a>
-        <a className="nav-btn" href="/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
-        <button className="nav-btn" onClick={() => window.location.reload()}>Home</button>
-        {logged ? <button className="nav-btn" onClick={onLogout}>Logout</button> : null}
-      </div>
+      {logged && <button className="btn" style={{width: "auto"}} onClick={onLogout}>Logout</button>}
     </div>
   );
 }
@@ -76,18 +56,18 @@ function Auth({ onLogin, onSignup }) {
   const [mode, setMode] = useState("login");
   return (
     <div className="container">
-      <div className="section-title">Welcome to CYBIX TECH</div>
-      <p style={{textAlign:"center", marginBottom:"1em"}}>Obfuscate your code securely! <br/>Languages: JavaScript, Python, HTML, CSS, React, TypeScript, Java</p>
-      <ChannelBar />
+      <div className="section-title">CYBIX TECH</div>
+      <p style={{textAlign:"center", marginBottom:"1em"}}>Obfuscate your code securely!<br/>Languages: JavaScript, Python, HTML, CSS, React, TypeScript, Java</p>
       {mode === "login"
         ? <LoginForm onLogin={onLogin}/>
         : <SignupForm onSignup={onSignup}/>
       }
-      <div style={{textAlign:"center", marginTop:"1em"}}>
+      <div style={{textAlign:"center", marginTop:"1.2em"}}>
         <button className="btn" style={{width: "auto"}} onClick={() => setMode(mode === "login" ? "signup" : "login")}>
           {mode === "login" ? "Need an account? Sign up" : "Already have an account? Log in"}
         </button>
       </div>
+      <IconBar />
     </div>
   );
 }
@@ -114,7 +94,6 @@ function LoginForm({ onLogin }) {
         setErr(e.response?.data?.error || "Login error");
       }
     }}>
-      <h2 style={{marginBottom:"0.6em"}}>Login</h2>
       <div className="form-group">
         <input
           autoFocus
@@ -173,7 +152,6 @@ function SignupForm({ onSignup }) {
         setErr(e.response?.data?.error || "Signup error");
       }
     }}>
-      <h2 style={{marginBottom:"0.6em"}}>Sign Up</h2>
       <div className="form-group">
         <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} required/>
       </div>
@@ -228,7 +206,7 @@ function ObfuscatePanel({ token }) {
 
   return (
     <form className="filebox" onSubmit={handleObfuscate}>
-      <h3 style={{marginBottom:"0.7em"}}>Obfuscate Code</h3>
+      <h3 style={{marginBottom:"0.7em", color: "#2c8be6"}}>Obfuscate Code</h3>
       <div className="form-group">
         <textarea rows="7" placeholder="Paste your code here..." value={code} onChange={e => setCode(e.target.value)} required />
       </div>
@@ -284,7 +262,7 @@ function ZipObfuscatePanel({ token }) {
 
   return (
     <form className="filebox" onSubmit={handleUpload}>
-      <h3 style={{marginBottom:"0.7em"}}>Obfuscate ZIP of Code Files</h3>
+      <h3 style={{marginBottom:"0.7em", color: "#2c8be6"}}>Obfuscate ZIP of Code Files</h3>
       <input type="file" accept=".zip" onChange={e => setFile(e.target.files[0])} required />
       <input type="submit" className="btn" value={loading ? "Uploading..." : "Upload & Obfuscate"} disabled={loading}/>
       {loading && <div className="loading"></div>}
@@ -298,9 +276,8 @@ function Home({ user, token, onLogout }) {
   return (
     <div className="container">
       <div className="section-title">
-        Hi, {user.name} {user.premium && <span style={{color:"#00ffae"}}>(Premium)</span>}
+        Hi, {user.name} {user.premium && <span style={{color:"#2c8be6"}}>(Premium)</span>}
       </div>
-      <ChannelBar />
       <div style={{display:"flex",gap:"1em",justifyContent:"center",marginBottom:"1.2em"}}>
         <button className={tab==="obfuscate"?"btn":"nav-btn"} style={{width:"auto"}} onClick={()=>setTab("obfuscate")}>Obfuscate Code</button>
         {user.premium && <button className={tab==="zip"?"btn":"nav-btn"} style={{width:"auto"}} onClick={()=>setTab("zip")}>Obfuscate ZIP</button>}
@@ -308,6 +285,7 @@ function Home({ user, token, onLogout }) {
       {tab==="obfuscate" && <ObfuscatePanel token={token}/>}
       {tab==="zip" && user.premium && <ZipObfuscatePanel token={token}/>}
       <button className="btn" style={{marginTop:"2em"}} onClick={onLogout}>Logout</button>
+      <IconBar />
     </div>
   );
 }
