@@ -1,32 +1,10 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
+import { obfuscateJS, deobfuscateJS } from "./obfuscate";
+import { obfuscatePy, deobfuscatePy } from "./obfuscate";
 
 const API = "https://cybix-v3-3.onrender.com";
-const WHATSAPP_CHANNEL = "https://whatsapp.com/channel/0029VbB8svo65yD8WDtzwd0X";
-const TELEGRAM_CHANNEL = "https://t.me/cybixtech";
-const YOUTUBE_LINK = "https://youtube.com/howtouse-cybixtech";
-const BOT_USERNAME = "@cybixwebsite_bot";
-const BOT_LINK = "https://t.me/cybixwebsite_bot";
-
-function ChannelButtons() {
-  return (
-    <div className="channels">
-      <a className="channel-btn" href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer">
-        <span>📱 WhatsApp</span>
-      </a>
-      <a className="channel-btn" href={TELEGRAM_CHANNEL} target="_blank" rel="noopener noreferrer">
-        <span>🚀 Telegram</span>
-      </a>
-      <a className="channel-btn" href={YOUTUBE_LINK} target="_blank" rel="noopener noreferrer">
-        <span>🎬 YouTube Guide</span>
-      </a>
-      <a className="channel-btn" href={BOT_LINK} target="_blank" rel="noopener noreferrer">
-        <span>🤖 {BOT_USERNAME}</span>
-      </a>
-    </div>
-  );
-}
 
 function Navbar({ logged, admin, onLogout }) {
   return (
@@ -35,12 +13,34 @@ function Navbar({ logged, admin, onLogout }) {
       <div className="right">
         <a className="nav-btn" href="/terms" target="_blank">Terms</a>
         <a className="nav-btn" href="/privacy" target="_blank">Privacy</a>
-        <a className="nav-btn" href={BOT_LINK} target="_blank">{BOT_USERNAME}</a>
-        {logged ? <button className="nav-btn" onClick={onLogout}>Logout</button> : null}
-        {admin ? <a className="nav-btn" href="#admin">Admin Dashboard</a> : null}
+        {logged && <button className="nav-btn" onClick={onLogout}>Logout</button>}
+        {admin && <a className="nav-btn" href="#admin">Admin Dashboard</a>}
       </div>
     </div>
   );
+}
+
+// Simple code obfuscator for demo; use a real JS obfuscator in production
+function obfuscateCode(code, lang) {
+  if (lang === "javascript" || lang === "react" || lang === "typescript") {
+    // Use a real JS obfuscator like javascript-obfuscator in production!
+    return obfuscateJS(code);
+  }
+  if (lang === "python") {
+    return obfuscatePy(code);
+  }
+  // For other languages do base64 for now
+  return btoa(code);
+}
+function deobfuscateCode(code, lang) {
+  if (lang === "javascript" || lang === "react" || lang === "typescript") {
+    return deobfuscateJS(code);
+  }
+  if (lang === "python") {
+    return deobfuscatePy(code);
+  }
+  // For other languages do base64 for now
+  try { return atob(code); } catch { return code; }
 }
 
 function Auth({ onLogin, onSignup }) {
@@ -49,14 +49,11 @@ function Auth({ onLogin, onSignup }) {
     <div className="container">
       <div className="section-title">Welcome to CYBIX TECH</div>
       <p style={{textAlign:"center",marginBottom:"2em"}}>Obfuscate/Deobfuscate: JS, Python, HTML, CSS, React, TypeScript, Java</p>
-      <ChannelButtons />
-      <div>
-        {view === "login" ? <LoginForm onLogin={onLogin} /> : <SignupForm onSignup={onSignup} />}
-        <div style={{ textAlign: "center", marginTop: "1.2em" }}>
-          <button className="btn" onClick={() => setView(view === "login" ? "signup" : "login")}>
-            {view === "login" ? "Need an account? Sign up" : "Already have an account? Log in"}
-          </button>
-        </div>
+      {view === "login" ? <LoginForm onLogin={onLogin} /> : <SignupForm onSignup={onSignup} />}
+      <div style={{ textAlign: "center", marginTop: "1.2em" }}>
+        <button className="btn" onClick={() => setView(view === "login" ? "signup" : "login")}>
+          {view === "login" ? "Need an account? Sign up" : "Already have an account? Log in"}
+        </button>
       </div>
     </div>
   );
@@ -153,7 +150,7 @@ function SignupForm({ onSignup }) {
       <label style={{marginBottom:"1em"}}><input type="checkbox" checked={robot} onChange={e => setRobot(e.target.checked)} /> I am not a robot</label>
       <div style={{marginBottom:"1em"}}>
         <strong>Get your code from our Telegram bot:</strong><br/>
-        <a className="btn" href={BOT_LINK} target="_blank">Get Code ({BOT_USERNAME})</a>
+        <a className="btn" href="https://t.me/cybixwebsite_bot" target="_blank">Get Code (@cybixwebsite_bot)</a>
       </div>
       <div className="form-group">
         <label>Telegram Code</label>
@@ -171,8 +168,7 @@ function Home({ user, token, onLogout }) {
   const [tab, setTab] = useState("obfuscate");
   const [code, setCode] = useState("");
   const [lang, setLang] = useState("");
-  const [type, setType] = useState("default");
-  const [repeats, setRepeats] = useState(1);
+  const [filename, setFilename] = useState("output.js");
   const [result, setResult] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
@@ -181,16 +177,37 @@ function Home({ user, token, onLogout }) {
   function handleObfuscate(e) {
     e.preventDefault();
     setErr(""); setResult(""); setLoading(true);
-    axios.post(API + "/code/obfuscate", { code, lang, type, repeats }, { headers: { Authorization: "Bearer " + token } })
-      .then(res => { setResult(res.data.result); setLoading(false); })
-      .catch(e => { setErr(e.response?.data?.error || "Error"); setLoading(false); });
+    // Real obfuscation in browser for JS/Py
+    try {
+      const obf = obfuscateCode(code, lang);
+      setResult(obf);
+      setLoading(false);
+    } catch (e) {
+      setErr("Obfuscation failed.");
+      setLoading(false);
+    }
   }
   function handleDeobfuscate(e) {
     e.preventDefault();
     setErr(""); setResult(""); setLoading(true);
-    axios.post(API + "/code/deobfuscate", { code, lang, type, repeats }, { headers: { Authorization: "Bearer " + token } })
-      .then(res => { setResult(res.data.result); setLoading(false); })
-      .catch(e => { setErr(e.response?.data?.error || "Error"); setLoading(false); });
+    try {
+      const deobf = deobfuscateCode(code, lang);
+      setResult(deobf);
+      setLoading(false);
+    } catch (e) {
+      setErr("Deobfuscation failed.");
+      setLoading(false);
+    }
+  }
+  function downloadResult() {
+    const blob = new Blob([result], { type: "text/plain" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || "output.txt";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   }
   function handleUpload(e) {
     e.preventDefault();
@@ -216,7 +233,6 @@ function Home({ user, token, onLogout }) {
       <div className="section-title">
         Welcome, {user.name} {user.premium && <span className="premium-badge">(Premium)</span>}
       </div>
-      <ChannelButtons />
       <div style={{marginTop:"1.3em",display:"flex",gap:"1em",justifyContent:"center"}}>
         <button className={tab==="obfuscate"?"btn":"nav-btn"} onClick={() => setTab("obfuscate")}>Obfuscate</button>
         <button className={tab==="deobfuscate"?"btn":"nav-btn"} onClick={() => setTab("deobfuscate")}>Deobfuscate</button>
@@ -243,17 +259,16 @@ function Home({ user, token, onLogout }) {
             </select>
           </div>
           <div className="form-group">
-            <label>Obfuscation Type</label>
-            <input value={type} onChange={e => setType(e.target.value)} />
-          </div>
-          <div className="form-group">
-            <label>Repeats</label>
-            <input type="number" min="1" max="10" value={repeats} onChange={e => setRepeats(Number(e.target.value))} />
+            <label>File name for download</label>
+            <input value={filename} onChange={e => setFilename(e.target.value)} placeholder="output.js" required />
           </div>
           <input type="submit" className="btn" value={tab === "obfuscate" ? "Obfuscate" : "Deobfuscate"} />
           {loading && <div className="loading"></div>}
           {err && <div className="error">{err}</div>}
-          {result && <textarea rows="6" style={{width:"100%",marginTop:"1em"}} value={result} readOnly />}
+          {result && <>
+            <textarea rows="6" style={{width:"100%",marginTop:"1em"}} value={result} readOnly />
+            <button className="download-btn" onClick={downloadResult}>Download as {filename || "output.txt"}</button>
+          </>}
         </form>
       ) : null}
       {tab === "upload" && user.premium ? (
@@ -328,7 +343,7 @@ function App() {
       ) : (
         <Home user={user} token={token} onLogout={handleLogout} />
       )}
-      <div className="footer">© CYBIX TECH {new Date().getFullYear()} | Designed by CYBIX TECH</div>
+      <div className="footer">© CYBIX TECH {new Date().getFullYear()} | Developed by Jaden Afrix</div>
     </>
   );
 }
