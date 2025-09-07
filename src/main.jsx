@@ -1,34 +1,91 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
-import { obfuscateJS, deobfuscateJS } from "./obfuscate";
 
+// API and links
 const API = "https://cybix-v3-3.onrender.com";
+const WHATSAPP_CHANNEL = "https://whatsapp.com/channel/0029VbB8svo65yD8WDtzwd0X";
+const TELEGRAM_CHANNEL = "https://t.me/cybixtech";
+const YOUTUBE_LINK = "https://youtube.com/howtouse-cybixtech";
+const BOT_LINK = "https://t.me/cybixwebsite_bot";
 
-function Navbar({ logged, admin, onLogout }) {
+function ChannelBar() {
   return (
-    <div className="nav">
-      <div className="logo">CYBIX TECH</div>
-      <div className="right">
-        <a className="nav-btn" href="/terms" target="_blank">Terms</a>
-        <a className="nav-btn" href="/privacy" target="_blank">Privacy</a>
-        {logged && <button className="nav-btn" onClick={onLogout}>Logout</button>}
-        {admin && <a className="nav-btn" href="#admin">Admin Dashboard</a>}
+    <div className="channel-bar">
+      <a className="channel-btn" href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer">
+        <span className="icon" role="img" aria-label="whatsapp">
+          {/* WhatsApp SVG */}
+          <svg width="22" height="22" viewBox="0 0 32 32">
+            <circle fill="#25D366" cx="16" cy="16" r="16"/>
+            <path fill="#FFF" d="M23.5 19.5c-.4-.2-2.1-1-2.4-1.1-.3-.1-.5-.2-.7.1-.2.2-.8 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.5-1.5-.9-.8-1.5-1.7-1.7-2-.2-.3 0-.5.1-.7.1-.1.2-.3.3-.4.1-.1.1-.2.2-.4.1-.2 0-.4-.1-.6-.1-.2-.7-1.7-1-2.3-.2-.5-.5-.4-.7-.4-.2 0-.4 0-.6 0-.2.1-.6.2-.9.6-.3.3-1.1 1.1-1.1 2.7s1.2 3.1 1.4 3.3c.2.2 2.5 3.9 6.2 5 3.6 1.1 3.6.7 4.3.6.7-.1 2.1-1.6 2.4-2.2.3-.6.2-1.1.1-1.2z"/>
+          </svg>
+        </span>
+        WhatsApp
+      </a>
+      <a className="channel-btn" href={TELEGRAM_CHANNEL} target="_blank" rel="noopener noreferrer">
+        <span className="icon" role="img" aria-label="telegram">
+          {/* Telegram SVG */}
+          <svg width="22" height="22" viewBox="0 0 32 32">
+            <circle fill="#29b6f6" cx="16" cy="16" r="16"/>
+            <polygon fill="#FFF" points="25,9 7,16 13,18 15,25 18,20 22,21"/>
+          </svg>
+        </span>
+        Telegram
+      </a>
+      <a className="channel-btn" href={YOUTUBE_LINK} target="_blank" rel="noopener noreferrer">
+        <span className="icon" role="img" aria-label="youtube">
+          {/* YouTube SVG */}
+          <svg width="22" height="22" viewBox="0 0 32 32">
+            <circle fill="#FF0000" cx="16" cy="16" r="16"/>
+            <polygon fill="#FFF" points="13,11 21,16 13,21"/>
+          </svg>
+        </span>
+        YouTube
+      </a>
+      <a className="channel-btn" href={BOT_LINK} target="_blank" rel="noopener noreferrer">
+        <span className="icon" role="img" aria-label="bot">
+          {/* Bot SVG */}
+          <svg width="22" height="22" viewBox="0 0 32 32">
+            <circle fill="#00f3ff" cx="16" cy="16" r="16"/>
+            <path fill="#fff" d="M10 22c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+            <circle fill="#00ffae" cx="12" cy="14" r="2"/>
+            <circle fill="#00ffae" cx="20" cy="14" r="2"/>
+          </svg>
+        </span>
+        Bot
+      </a>
+    </div>
+  );
+}
+
+function Navbar({ logged, onLogout }) {
+  return (
+    <div className="navbar">
+      <span className="nav-logo">CYBIX TECH</span>
+      <div className="nav-right">
+        <a className="nav-btn" href="/terms" target="_blank" rel="noopener noreferrer">Terms</a>
+        <a className="nav-btn" href="/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <button className="nav-btn" onClick={() => window.location.reload()}>Home</button>
+        {logged ? <button className="nav-btn" onClick={onLogout}>Logout</button> : null}
       </div>
     </div>
   );
 }
 
 function Auth({ onLogin, onSignup }) {
-  const [view, setView] = useState("login");
+  const [mode, setMode] = useState("login");
   return (
     <div className="container">
       <div className="section-title">Welcome to CYBIX TECH</div>
-      <p style={{textAlign:"center",marginBottom:"2em"}}>Obfuscate/Deobfuscate: JavaScript, TypeScript, React (100% real)</p>
-      {view === "login" ? <LoginForm onLogin={onLogin} /> : <SignupForm onSignup={onSignup} />}
-      <div style={{ textAlign: "center", marginTop: "1.2em" }}>
-        <button className="btn" onClick={() => setView(view === "login" ? "signup" : "login")}>
-          {view === "login" ? "Need an account? Sign up" : "Already have an account? Log in"}
+      <p style={{textAlign:"center", marginBottom:"1em"}}>Obfuscate your code securely! <br/>Languages: JavaScript, Python, HTML, CSS, React, TypeScript, Java</p>
+      <ChannelBar />
+      {mode === "login"
+        ? <LoginForm onLogin={onLogin}/>
+        : <SignupForm onSignup={onSignup}/>
+      }
+      <div style={{textAlign:"center", marginTop:"1em"}}>
+        <button className="btn" style={{width: "auto"}} onClick={() => setMode(mode === "login" ? "signup" : "login")}>
+          {mode === "login" ? "Need an account? Sign up" : "Already have an account? Log in"}
         </button>
       </div>
     </div>
@@ -38,12 +95,12 @@ function Auth({ onLogin, onSignup }) {
 function LoginForm({ onLogin }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
   const [robot, setRobot] = useState(false);
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+
   return (
-    <form onSubmit={async e => {
+    <form className="auth-form" onSubmit={async e => {
       e.preventDefault();
       setErr("");
       if (!robot) return setErr("Please confirm you're not a robot.");
@@ -57,19 +114,32 @@ function LoginForm({ onLogin }) {
         setErr(e.response?.data?.error || "Login error");
       }
     }}>
+      <h2 style={{marginBottom:"0.6em"}}>Login</h2>
       <div className="form-group">
-        <label>Username / Name / Email</label>
-        <input value={identifier} onChange={e => setIdentifier(e.target.value)} required autoFocus />
+        <input
+          autoFocus
+          placeholder="Username / Name / Email"
+          value={identifier}
+          onChange={e => setIdentifier(e.target.value)}
+          required
+        />
       </div>
       <div className="form-group">
-        <label>Password</label>
-        <input type={show ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} required />
-        <label style={{marginTop:"0.7em"}}><input type="checkbox" checked={show} onChange={e => setShow(e.target.checked)} /> Show password</label>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
       </div>
-      <label style={{marginBottom:"1em"}}><input type="checkbox" checked={robot} onChange={e => setRobot(e.target.checked)} /> I am not a robot</label>
-      <input type="submit" className="btn" value={loading ? "Signing In..." : "Sign In"} disabled={loading} />
+      <label className="checkbox-label">
+        <input type="checkbox" checked={robot} onChange={e => setRobot(e.target.checked)} />
+        I am not a robot
+      </label>
+      <input type="submit" className="btn" value={loading ? "Signing In..." : "Login"} disabled={loading}/>
       {loading && <div className="loading"></div>}
-      {err && <div className="error">{err}</div>}
+      {err && <div className="message">{err}</div>}
     </form>
   );
 }
@@ -87,7 +157,7 @@ function SignupForm({ onSignup }) {
   const [loading, setLoading] = useState(false);
 
   return (
-    <form onSubmit={async e => {
+    <form className="auth-form" onSubmit={async e => {
       e.preventDefault();
       setErr(""); setSuccess("");
       if (!robot) return setErr("Please confirm you're not a robot.");
@@ -97,112 +167,105 @@ function SignupForm({ onSignup }) {
         const res = await axios.post(API + "/user/signup", { name, username, email, password, code });
         setLoading(false);
         setSuccess("Account created! Redirecting...");
-        setTimeout(() => { onSignup(res.data.token, res.data.user); }, 1300);
+        setTimeout(() => { onSignup(res.data.token, res.data.user); }, 1200);
       } catch (e) {
         setLoading(false);
         setErr(e.response?.data?.error || "Signup error");
       }
     }}>
+      <h2 style={{marginBottom:"0.6em"}}>Sign Up</h2>
       <div className="form-group">
-        <label>Name</label>
-        <input value={name} onChange={e => setName(e.target.value)} required />
-      </div>
-      <div className="form-group">
-        <label>Username</label>
-        <input value={username} onChange={e => setUsername(e.target.value)} required />
+        <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} required/>
       </div>
       <div className="form-group">
-        <label>Email</label>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+        <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required/>
       </div>
       <div className="form-group">
-        <label>Password</label>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required/>
       </div>
       <div className="form-group">
-        <label>Confirm Password</label>
-        <input type="password" value={cpass} onChange={e => setCpass(e.target.value)} required />
-      </div>
-      <label style={{marginBottom:"1em"}}><input type="checkbox" checked={robot} onChange={e => setRobot(e.target.checked)} /> I am not a robot</label>
-      <div style={{marginBottom:"1em"}}>
-        <strong>Get your code from our Telegram bot:</strong><br/>
-        <a className="btn" href="https://t.me/cybixwebsite_bot" target="_blank">Get Code (@cybixwebsite_bot)</a>
+        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required/>
       </div>
       <div className="form-group">
-        <label>Telegram Code</label>
-        <input value={code} onChange={e => setCode(e.target.value)} required />
+        <input type="password" placeholder="Confirm Password" value={cpass} onChange={e => setCpass(e.target.value)} required/>
       </div>
-      <input type="submit" className="btn" value={loading ? "Signing Up..." : "Sign Up"} disabled={loading} />
+      <label className="checkbox-label">
+        <input type="checkbox" checked={robot} onChange={e => setRobot(e.target.checked)} />
+        I am not a robot
+      </label>
+      <div className="form-group" style={{marginBottom:"0.6em"}}>
+        <a className="btn" href={BOT_LINK} target="_blank" rel="noopener noreferrer" style={{width:"100%"}}>
+          Get Telegram Code
+        </a>
+      </div>
+      <div className="form-group">
+        <input placeholder="Enter Telegram code" value={code} onChange={e => setCode(e.target.value)} required/>
+      </div>
+      <input type="submit" className="btn" value={loading ? "Signing Up..." : "Sign Up"} disabled={loading}/>
       {loading && <div className="loading"></div>}
-      {err && <div className="error">{err}</div>}
+      {err && <div className="message">{err}</div>}
       {success && <div className="success">{success}</div>}
     </form>
   );
 }
 
-function Home({ user, token, onLogout }) {
-  const [tab, setTab] = useState("obfuscate");
+function ObfuscatePanel({ token }) {
   const [code, setCode] = useState("");
   const [lang, setLang] = useState("");
-  const [filename, setFilename] = useState("output.js");
+  const [type, setType] = useState("default");
+  const [repeats, setRepeats] = useState(1);
   const [result, setResult] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
-  const [file, setFile] = useState(null);
 
   function handleObfuscate(e) {
     e.preventDefault();
     setErr(""); setResult(""); setLoading(true);
-    try {
-      if (lang === "javascript" || lang === "typescript" || lang === "react") {
-        const obf = obfuscateJS(code);
-        setResult(obf);
-      } else {
-        setErr("Unsupported file type for obfuscation.");
-      }
-      setLoading(false);
-    } catch (e) {
-      setErr("Obfuscation failed.");
-      setLoading(false);
-    }
+    axios.post(API + "/code/obfuscate", { code, lang, type, repeats }, { headers: { Authorization: "Bearer " + token } })
+      .then(res => { setResult(res.data.result); setLoading(false); })
+      .catch(e => { setErr(e.response?.data?.error || "Error"); setLoading(false); });
   }
 
-  function handleDeobfuscate(e) {
-    e.preventDefault();
-    setErr(""); setResult(""); setLoading(true);
-    try {
-      if (lang === "javascript" || lang === "typescript" || lang === "react") {
-        const deobf = deobfuscateJS(code);
-        setResult(deobf);
-      } else {
-        setErr("Unsupported file type for deobfuscation.");
-      }
-      setLoading(false);
-    } catch (e) {
-      setErr("Deobfuscation failed.");
-      setLoading(false);
-    }
-  }
+  return (
+    <form className="filebox" onSubmit={handleObfuscate}>
+      <h3 style={{marginBottom:"0.7em"}}>Obfuscate Code</h3>
+      <div className="form-group">
+        <textarea rows="7" placeholder="Paste your code here..." value={code} onChange={e => setCode(e.target.value)} required />
+      </div>
+      <div className="form-group">
+        <select value={lang} onChange={e => setLang(e.target.value)} required>
+          <option value="">Select language</option>
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="react">React</option>
+          <option value="typescript">TypeScript</option>
+          <option value="java">Java</option>
+        </select>
+      </div>
+      <div className="form-group">
+        <input placeholder="Obfuscation Type" value={type} onChange={e => setType(e.target.value)}/>
+      </div>
+      <div className="form-group">
+        <input type="number" min="1" max="10" placeholder="Repeats" value={repeats} onChange={e => setRepeats(Number(e.target.value))}/>
+      </div>
+      <input type="submit" className="btn" value={loading ? "Obfuscating..." : "Obfuscate"} disabled={loading}/>
+      {loading && <div className="loading"></div>}
+      {err && <div className="message">{err}</div>}
+      {result && <textarea rows="5" style={{width:"100%",marginTop:"1.1em"}} value={result} readOnly />}
+    </form>
+  );
+}
 
-  function downloadResult() {
-    const blob = new Blob([result], { type: "text/plain" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename || "output.js";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
+function ZipObfuscatePanel({ token }) {
+  const [file, setFile] = useState(null);
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleUpload(e) {
     e.preventDefault();
     setErr(""); setLoading(true);
-    if (!file || !file.name.endsWith('.zip')) {
-      setErr("Only ZIP uploads are supported.");
-      setLoading(false);
-      return;
-    }
     const form = new FormData();
     form.append("zip", file);
     axios.post(API + "/upload", form, { headers: { Authorization: "Bearer " + token }, responseType: "blob" })
@@ -216,88 +279,35 @@ function Home({ user, token, onLogout }) {
         a.click();
         a.remove();
       })
-      .catch(e => { setLoading(false); setErr(e.response?.data?.error || "Error"); });
+      .catch(e => { setLoading(false); setErr(e.response?.data?.error || "Error uploading ZIP"); });
   }
 
   return (
-    <div className="container">
-      <div className="section-title">
-        Welcome, {user.name} {user.premium && <span className="premium-badge">(Premium)</span>}
-      </div>
-      <div style={{marginTop:"1.3em",display:"flex",gap:"1em",justifyContent:"center"}}>
-        <button className={tab==="obfuscate"?"btn":"nav-btn"} onClick={() => setTab("obfuscate")}>Obfuscate</button>
-        <button className={tab==="deobfuscate"?"btn":"nav-btn"} onClick={() => setTab("deobfuscate")}>Deobfuscate</button>
-        {user.premium && <button className={tab==="upload"?"btn":"nav-btn"} onClick={() => setTab("upload")}>Upload ZIP</button>}
-      </div>
-      {tab === "obfuscate" || tab === "deobfuscate" ? (
-        <form className="filebox" onSubmit={tab === "obfuscate" ? handleObfuscate : handleDeobfuscate}>
-          <h3>{tab === "obfuscate" ? "Obfuscate" : "Deobfuscate"} Code</h3>
-          <div className="form-group">
-            <label>Paste your code below</label>
-            <textarea rows="8" value={code} onChange={e => setCode(e.target.value)} placeholder="Paste your code here..." required />
-          </div>
-          <div className="form-group">
-            <label>Language</label>
-            <select value={lang} onChange={e => setLang(e.target.value)} required>
-              <option value="">Select language</option>
-              <option value="javascript">JavaScript</option>
-              <option value="typescript">TypeScript</option>
-              <option value="react">React</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>File name for download</label>
-            <input value={filename} onChange={e => setFilename(e.target.value)} placeholder="output.js" required />
-          </div>
-          <input type="submit" className="btn" value={tab === "obfuscate" ? "Obfuscate" : "Deobfuscate"} />
-          {loading && <div className="loading"></div>}
-          {err && <div className="error">{err}</div>}
-          {result && <>
-            <textarea rows="6" style={{width:"100%",marginTop:"1em"}} value={result} readOnly />
-            <button className="download-btn" onClick={downloadResult}>Download as {filename || "output.js"}</button>
-          </>}
-        </form>
-      ) : null}
-      {tab === "upload" && user.premium ? (
-        <form className="filebox" onSubmit={handleUpload}>
-          <h3>Upload ZIP of JavaScript/TypeScript/React files</h3>
-          <input type="file" accept=".zip" onChange={e => setFile(e.target.files[0])} required />
-          <input type="submit" className="btn" value={loading ? "Uploading..." : "Upload & Obfuscate"} disabled={loading} />
-          {loading && <div className="loading"></div>}
-          {err && <div className="error">{err}</div>}
-        </form>
-      ) : null}
-      <button className="btn" style={{marginTop:"2em"}} onClick={onLogout}>Logout</button>
-    </div>
+    <form className="filebox" onSubmit={handleUpload}>
+      <h3 style={{marginBottom:"0.7em"}}>Obfuscate ZIP of Code Files</h3>
+      <input type="file" accept=".zip" onChange={e => setFile(e.target.files[0])} required />
+      <input type="submit" className="btn" value={loading ? "Uploading..." : "Upload & Obfuscate"} disabled={loading}/>
+      {loading && <div className="loading"></div>}
+      {err && <div className="message">{err}</div>}
+    </form>
   );
 }
 
-function AdminDashboard({ token }) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  React.useEffect(() => {
-    axios.get(API + "/admin/dashboard", { headers: { Authorization: "Bearer " + token } })
-      .then(res => { setData(res.data); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, [token]);
-  if (loading) return <div className="container"><div className="loading"></div></div>;
-  if (!data) return <div className="container">Failed to load admin dashboard.</div>;
+function Home({ user, token, onLogout }) {
+  const [tab, setTab] = useState("obfuscate");
   return (
-    <div className="dashboard-section">
-      <h2>Admin Dashboard</h2>
-      <div>Registrations: <b>{data.stats.registrations}</b></div>
-      <div>Premium users: <b>{data.premium}</b></div>
-      <div>Year: <b>{data.year}</b></div>
-      <table>
-        <thead>
-          <tr><th>Name</th><th>Username</th><th>Email</th><th>Premium</th><th>Joined</th></tr>
-        </thead>
-        <tbody>
-          {data.users.map(u => (
-            <tr key={u.email}><td>{u.name}</td><td>{u.username}</td><td>{u.email}</td><td>{u.premium ? "Yes" : ""}</td><td>{u.created}</td></tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container">
+      <div className="section-title">
+        Hi, {user.name} {user.premium && <span style={{color:"#00ffae"}}>(Premium)</span>}
+      </div>
+      <ChannelBar />
+      <div style={{display:"flex",gap:"1em",justifyContent:"center",marginBottom:"1.2em"}}>
+        <button className={tab==="obfuscate"?"btn":"nav-btn"} style={{width:"auto"}} onClick={()=>setTab("obfuscate")}>Obfuscate Code</button>
+        {user.premium && <button className={tab==="zip"?"btn":"nav-btn"} style={{width:"auto"}} onClick={()=>setTab("zip")}>Obfuscate ZIP</button>}
+      </div>
+      {tab==="obfuscate" && <ObfuscatePanel token={token}/>}
+      {tab==="zip" && user.premium && <ZipObfuscatePanel token={token}/>}
+      <button className="btn" style={{marginTop:"2em"}} onClick={onLogout}>Logout</button>
     </div>
   );
 }
@@ -318,20 +328,14 @@ function App() {
   }
 
   return (
-    <>
-      <Navbar logged={!!token} admin={user?.admin} onLogout={handleLogout} />
-      {!token ? (
-        <Auth onLogin={handleLogin} onSignup={handleLogin} />
-      ) : user?.admin ? (
-        <>
-          <Home user={user} token={token} onLogout={handleLogout} />
-          <AdminDashboard token={token} />
-        </>
-      ) : (
-        <Home user={user} token={token} onLogout={handleLogout} />
-      )}
-      <div className="footer">© CYBIX TECH {new Date().getFullYear()} | Designed by CYBIX TECH</div>
-    </>
+    <div className="app-shell">
+      <Navbar logged={!!token} onLogout={handleLogout}/>
+      {!token
+        ? <Auth onLogin={handleLogin} onSignup={handleLogin}/>
+        : <Home user={user} token={token} onLogout={handleLogout}/>
+      }
+      <div className="footer">© CYBIX TECH {new Date().getFullYear()}</div>
+    </div>
   );
 }
 

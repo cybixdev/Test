@@ -1,311 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"/>
   <title>CYBIX TECH</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/dist/index.browser.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script type="module" src="/src/main.jsx"></script>
   <style>
-    :root {
-      --primary: #5ec4ff;
-      --accent: #3378b7;
-      --bg-dark: #0b132b;
-      --bg-card: #16213e;
-      --bg-nav: #1e2746;
-      --danger: #ff3b3b;
-      --success: #3dffb6;
-      --border-radius: 13px;
-      --shadow: 0 0 16px #16375b;
-      --icon-size: 24px;
-    }
-    body {
-      background: var(--bg-dark);
-      color: var(--primary);
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-    .nav {
-      background: var(--bg-nav);
-      padding: 1.1em 1.7em;
-      box-shadow: var(--shadow);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1.5px solid #273755;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .nav .logo {
-      font-size: 1.6em;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      color: var(--primary);
-      text-transform: uppercase;
-      text-shadow: 0 0 5px var(--primary);
-    }
-    .nav .right {
-      display: flex;
-      gap: 1em;
-      align-items: center;
-    }
-    .nav .nav-btn {
-      background: var(--accent);
-      color: var(--bg-dark);
-      border: none;
-      border-radius: 7px;
-      font-weight: bold;
-      padding: 0.55em 1.2em;
-      cursor: pointer;
-      box-shadow: 0 0 7px var(--accent);
-      text-decoration: none;
-      font-size: 1em;
-      transition: background 0.2s;
-      margin-right: 0.4em;
-      display: flex;
-      align-items: center;
-      gap: 0.45em;
-    }
-    .nav .nav-btn:hover {
-      background: #3378b7;
-      color: #fff;
-    }
-    .container {
-      max-width: 410px;
-      margin: 2.7em auto;
-      padding: 1.3em;
-      background: var(--bg-card);
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      min-height: 340px;
-    }
-    .section-title {
-      text-align: center;
-      color: var(--primary);
-      font-size: 1.5em;
-      margin-bottom: 1em;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-shadow: 0 0 6px var(--accent);
-    }
-    .channels {
-      display: flex;
-      gap: 0.8em;
-      justify-content: center;
-      margin-bottom: 1.2em;
-      flex-wrap: wrap;
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100vw;
-      padding: 0.8em 0;
-      background: rgba(11,19,43,0.97);
-      z-index: 100;
-      box-shadow: 0 -2px 11px #16213e44;
-    }
-    .channels .icon-btn {
-      background: #21305b;
-      color: var(--primary);
-      border: none;
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 7px #1e2746;
-      font-size: var(--icon-size);
-      margin-bottom: 0.1em;
-      cursor: pointer;
-      transition: background 0.2s;
-      text-decoration: none;
-    }
-    .channels .icon-btn:hover { background: #3378b7; color: #fff; }
-    .channels .bot-btn {
-      background: linear-gradient(90deg, #5ec4ff, #3378b7);
-      color: var(--bg-dark);
-      font-weight: bold;
-      border-radius: 7px;
-      padding: 0.7em 1.3em;
-      box-shadow: 0 0 7px #3378b7;
-      margin-left: 1em;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.7em;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.18s;
-    }
-    .channels .bot-btn:hover {
-      background: linear-gradient(90deg, #3378b7 70%, #fff 100%);
-      color: #16213e;
-    }
-    .form-group {
-      margin-bottom: 1em;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-    }
-    input, select, textarea {
-      background: #202c4d;
-      color: var(--primary);
-      border: 1.2px solid #4bbaf8;
-      padding: 0.7em;
-      border-radius: 7px;
-      font-size: 0.93em;
-      margin-top: 0.1em;
-      transition: border 0.2s;
-    }
-    input:focus, select:focus, textarea:focus {
-      border: 1.2px solid #5ec4ff;
-      outline: none;
-    }
-    .btn, button, input[type="submit"] {
-      background: var(--accent);
-      color: var(--bg-dark);
-      font-weight: bold;
-      border: none;
-      border-radius: 7px;
-      padding: 0.7em 1.5em;
-      box-shadow: 0 0 7px #4bbaf8;
-      cursor: pointer;
-      font-size: 1.05em;
-      margin-top: 0.6em;
-      text-decoration: none;
-      transition: background 0.2s;
-      display: inline-block;
-    }
-    .btn:hover, button:hover, input[type="submit"]:hover {
-      background: #3378b7;
-      color: #fff;
-    }
-    .error {
-      color: var(--danger);
-      font-weight: bold;
-      margin-top: 0.5em;
-      text-align: center;
-    }
-    .success {
-      color: var(--success);
-      font-weight: bold;
-      margin-top: 0.5em;
-      text-align: center;
-    }
-    .footer {
-      text-align: center;
-      color: var(--primary);
-      margin-top: 2em;
-      font-size: 1em;
-      letter-spacing: 1px;
-      padding-bottom: 2.4em;
-    }
-    @media (max-width:700px) {
-      .container {
-        max-width: 96vw;
-        padding: 1em;
-      }
-      .nav {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1em;
-      }
-    }
-    .dashboard-section {
-      margin-top: 2em;
-      background: #1e2746;
-      padding: 1em;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #4bbaf8;
-      color: #5ec4ff;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1em 0;
-      background: #111;
-      color: var(--primary);
-      font-size: 0.95em;
-      border-radius: 9px;
-      overflow: hidden;
-    }
-    th, td {
-      border: 1px solid #0ff3;
-      padding: 0.6em;
-      text-align: left;
-    }
-    th {
-      background: #111d2b;
-      color: var(--accent);
-    }
-    .filebox {
-      background: #21305b;
-      color: var(--primary);
-      padding: 1.3em;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #4bbaf8;
-      margin-top: 2em;
-    }
-    .loading {
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      border: 4px solid #4bbaf8;
-      border-top: 4px solid #0b132b;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      margin: 0 auto;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .dashboard-section h2 {
-      color: #5ec4ff;
-      margin-bottom: 0.7em;
-    }
-    .premium-badge {
-      color: var(--success);
-      font-weight: bold;
-    }
-    .download-btn {
-      background: #3378b7;
-      color: #fff;
-      border-radius: 7px;
-      padding: 0.7em 1.2em;
-      margin-top: 0.5em;
-      box-shadow: 0 0 7px #3378b7;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-      text-decoration: none;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      font-size: 1em;
-    }
-    .download-btn:hover { background: #4bbaf8; color: #222; }
+:root {
+  --bg: #01041b;
+  --bg-light: #0a0f47;
+  --neon: #00f3ff;
+  --white: #e6f1ff;
+  --gray: #a0b3d6;
+  --error: #ff4d4d;
+  --accent: #00ffae;
+  --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --radius-sm: 7px;
+  --radius-md: 12px;
+  --shadow-neon: 0 0 10px var(--neon);
+  --shadow-glow: 0 0 18px var(--neon);
+  --transition: 0.25s cubic-bezier(.8,-0.25,.2,1.25);
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font);
+  min-height: 100vh;
+}
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.navbar {
+  width: 100%;
+  background: var(--bg-light);
+  box-shadow: var(--shadow-glow);
+  padding: 1.5em 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav-logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--neon);
+  text-shadow: 0 0 15px var(--neon);
+  letter-spacing: 2px;
+}
+.nav-btn {
+  background: var(--neon);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  padding: 0.7em 1.3em;
+  font-size: 1em;
+  box-shadow: var(--shadow-neon);
+  margin-left: 0.7em;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none;
+  display: inline-block;
+}
+.nav-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+}
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 2em auto;
+  background: rgba(10, 15, 71, 0.6);
+  border: 1.5px solid var(--neon);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-glow);
+  padding: 2em 1.5em;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+.section-title {
+  text-align: center;
+  color: var(--neon);
+  font-size: 2em;
+  font-weight: bold;
+  text-shadow: var(--shadow-glow);
+  margin-bottom: 0.7em;
+  letter-spacing: 1px;
+}
+.form-group {
+  margin-bottom: 1.3em;
+  display: flex;
+  flex-direction: column;
+}
+input, select, textarea {
+  background: rgba(10, 15, 71, 0.3);
+  color: var(--white);
+  border: 1.5px solid var(--neon);
+  border-radius: var(--radius-sm);
+  padding: 0.8em;
+  font-size: 1em;
+  transition: border var(--transition), background var(--transition);
+  margin-top: 0.2em;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  background: rgba(10,15,71,0.55);
+}
+input::placeholder, textarea::placeholder {
+  color: var(--gray);
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  margin-bottom: 1em;
+  font-size: 0.95em;
+  color: var(--gray);
+  cursor: pointer;
+}
+.checkbox-label input[type="checkbox"] {
+  accent-color: var(--neon);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.btn, button, input[type="submit"] {
+  width: 100%;
+  padding: 0.9em;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-neon);
+  background: var(--neon);
+  color: var(--bg);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+.btn:hover, button:hover, input[type="submit"]:hover {
+  background: var(--accent);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px var(--neon);
+}
+.btn:focus { outline: 2px solid var(--neon); outline-offset: 2px; }
+.message {
+  margin-top: 1em;
+  text-align: center;
+  min-height: 1.5rem;
+  color: var(--error);
+  font-weight: 500;
+}
+.success {
+  margin-top: 1em;
+  text-align: center;
+  color: var(--accent);
+  font-weight: 600;
+}
+.channel-bar {
+  margin: 1.7em 0 1em 0;
+  display: flex;
+  gap: 0.8em;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.channel-btn {
+  background: var(--bg-light);
+  color: var(--neon);
+  border: 1px solid var(--neon);
+  border-radius: 8px;
+  box-shadow: var(--shadow-neon);
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.6em 1.1em;
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition), color var(--transition);
+}
+.channel-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.icon {
+  font-size: 1.5em;
+  vertical-align: middle;
+}
+.filebox {
+  background: rgba(10, 15, 71, 0.3);
+  color: var(--neon);
+  padding: 1.2em;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-neon);
+  margin-top: 2em;
+}
+.loading {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid var(--neon);
+  border-top: 4px solid var(--bg);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.footer {
+  text-align: center;
+  color: var(--gray);
+  margin-top: 2em;
+  font-size: 1em;
+  letter-spacing: 1px;
+  padding-bottom: 1.5em;
+}
+@media (max-width: 600px) {
+  .container {
+    max-width: 97vw;
+    padding: 1em 0.5em;
+  }
+  .navbar {
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em 0.5em;
+  }
+  .channel-bar {
+    gap: 0.4em;
+  }
+}
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <div class="channels">
-    <a class="icon-btn" href="https://whatsapp.com/channel/0029VbB8svo65yD8WDtzwd0X" target="_blank" title="WhatsApp">
-      <svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path fill="#fff" d="M22.3 19.7c-.4-.2-2.2-1.1-2.5-1.2s-.6-.2-.9.2c-.3.4-1.1 1.2-1.4 1.4-.2.2-.5.3-.9.1s-1.8-.7-3.5-2.2c-1.3-1.2-2.2-2.6-2.5-3-.2-.4 0-.6.2-.8.2-.2.5-.6.7-.9.2-.3.2-.6.3-.8s0-.5-.1-.7c-.1-.2-.9-2.2-1.2-3-.3-.7-.6-.6-.9-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.2 2.7-.2 1.5.9 3.3 2.7 5 1.5 1.5 3.2 2.2 4.7 2.3 1.1.1 2.2-.1 3-.4.8-.3 1.2-1.1 1.4-1.5.2-.4.2-.6.1-.8z"/></svg>
-    </a>
-    <a class="icon-btn" href="https://t.me/cybixtech" target="_blank" title="Telegram">
-      <svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0088cc"/><path fill="#fff" d="M13.2 22.5l-2.6-.8-.8-3.1 7.6-7.7 3.2 3.2-7.4 8.4zm10.5-13.4l-16.4 6.7c-1.2.5-1.2 1.2-.2 1.5l3.9 1.2 1.5 5.6c.2.7.6.8 1.2.6l2.7-.8 5.5-3.3c.8-.5.7-.8.6-.9l-1.3-1.2-5.2 3.1.8-1.5 6.9-6.1c.7-.6.7-1.1-.4-1.6z"/></svg>
-    </a>
-    <a class="icon-btn" href="https://youtube.com/howtouse-cybixtech" target="_blank" title="YouTube">
-      <svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#FF0000"/><polygon fill="#fff" points="13,22 13,10 22,16"/></svg>
-    </a>
-    <a class="bot-btn" href="https://t.me/cybixwebsite_bot" target="_blank" title="Telegram Bot">
-      <svg width="22" height="22" viewBox="0 0 32 32" style="vertical-align:middle"><circle cx="16" cy="16" r="16" fill="#0088cc"/><path fill="#fff" d="M13.2 22.5l-2.6-.8-.8-3.1 7.6-7.7 3.2 3.2-7.4 8.4zm10.5-13.4l-16.4 6.7c-1.2.5-1.2 1.2-.2 1.5l3.9 1.2 1.5 5.6c.2.7.6.8 1.2.6l2.7-.8 5.5-3.3c.8-.5.7-.8.6-.9l-1.3-1.2-5.2 3.1.8-1.5 6.9-6.1c.7-.6.7-1.1-.4-1.6z"/></svg>
-      @cybixwebsite_bot
-    </a>
-  </div>
 </body>
 </html>
