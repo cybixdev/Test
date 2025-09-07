@@ -2,76 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>CYBIX TECH — Next-Gen Obfuscation</title>
+  <title>CYBIX TECH</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script type="module" src="/src/main.jsx"></script>
 
-  <!-- Tabler Icons (18 kB) -->
+  <!-- Tabler Icons -->
   <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
 
   <style>
-    /* ---------- DESIGN TOKENS ---------- */
     :root{
-      --bg:#050a18;
-      --surface:#101829;
-      --glass:rgba(16,24,41,.55);
+      --bg:#0a1020;
+      --card:#141b2d;
       --primary:#29a8ff;
       --secondary:#00e5ff;
       --white:#f1f5f9;
       --muted:#94a3b8;
       --err:#ff5252;
       --ok:#00d68f;
-      --radius:10px;
-      --trans:.25s cubic-bezier(.4,0,.2,1);
-      --shadow:0 8px 32px rgba(0,229,255,.08);
-      --glow:0 0 12px rgba(41,168,255,.35);
+      --radius:8px;
+      --trans:.2s ease;
     }
-    /* ---------- RESET ---------- */
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.4;-webkit-font-smoothing:antialiased;}
-    #root{min-height:100vh;display:flex;flex-direction:column;}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+    body{background:var(--bg);color:var(--white);min-height:100vh;display:flex;flex-direction:column;}
+    #root{flex:1;display:flex;flex-direction:column;}
     a{color:var(--primary);}
-    /* ---------- TYPOGRAPHY ---------- */
-    h1,h2,h3{letter-spacing:.5px;}
-    .label-sm{font-size:.75rem;color:var(--muted);}
-    /* ---------- FORM BASICS ---------- */
-    input,select,textarea{width:100%;padding:.75rem 1rem;border:1px solid var(--primary);background:var(--surface);color:var(--white);border-radius:var(--radius);font-size:1rem;transition:border-color var(--trans),box-shadow var(--trans);}
-    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--secondary);box-shadow:var(--glow);}
-    input::placeholder,textarea::placeholder{color:var(--muted);}
-    /* ---------- BUTTONS ---------- */
-    .btn{padding:.75rem 1.25rem;border:none;border-radius:var(--radius);background:linear-gradient(135deg,var(--primary),var(--secondary));color:var(--bg);font-weight:700;cursor:pointer;transition:transform var(--trans),box-shadow var(--trans);}
-    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
-    .btn:active{transform:translateY(0);}
-    .btn:disabled{opacity:.55;cursor:not-allowed;}
-    .btn-outline{background:transparent;border:1px solid var(--primary);color:var(--primary);}
-    .btn-outline:hover{background:var(--primary);color:var(--bg);}
-    /* ---------- LAYOUT ---------- */
-    .viewport{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;flex:1;}
-    .card{width:100%;max-width:420px;background:var(--glass);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);backdrop-filter:blur(12px);padding:2rem;}
-    .title{font-size:1.75rem;font-weight:800;text-align:center;margin-bottom:.25rem;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .subtitle{text-align:center;color:var(--muted);margin-bottom:1.5rem;}
+    input,select,textarea{width:100%;padding:.7rem;border:1px solid var(--primary);background:var(--card);color:var(--white);border-radius:var(--radius);font-size:1rem;transition:border-color var(--trans);}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--secondary);}
+    ::placeholder{color:var(--muted);}
+    button,.btn{padding:.75rem;border:none;border-radius:var(--radius);background:linear-gradient(135deg,var(--primary),var(--secondary));color:var(--bg);font-weight:700;cursor:pointer;transition:transform var(--trans);}
+    button:hover,.btn:hover{transform:translateY(-2px);}
+    button:disabled{opacity:.5;cursor:not-allowed;}
+    .container{width:100%;max-width:400px;margin:auto;padding:2rem;background:var(--card);border-radius:var(--radius);}
+    .navbar{width:100%;background:var(--card);display:flex;justify-content:space-between;align-items:center;padding:1rem 1.2rem;position:sticky;top:0;z-index:10;}
+    .nav-logo{font-size:1.3rem;font-weight:800;letter-spacing:1px;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .section-title{text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:1rem;}
     .form-group{margin-bottom:1rem;position:relative;}
     .check-group{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--muted);}
     .error{color:var(--err);font-size:.85rem;text-align:center;margin-top:.5rem;}
     .success{color:var(--ok);font-size:.85rem;text-align:center;margin-top:.5rem;}
-    /* ---------- PASSWORD REVEAL ---------- */
-    .reveal{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;transition:color var(--trans);}
-    .reveal:hover{color:var(--white);}
-    /* ---------- TABS ---------- */
-    .tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;}
-    .tab{flex:1;padding:.5rem;border:1px solid var(--primary);background:transparent;color:var(--primary);border-radius:var(--radius);font-weight:600;transition:all var(--trans);}
-    .tab.active{background:var(--primary);color:var(--bg);}
-    /* ---------- ICON BAR ---------- */
-    .ibar{display:flex;justify-content:center;gap:1.25rem;margin-top:2rem;}
-    .ibtn{width:42px;height:42px;display:grid;place-items:center;background:var(--surface);border:1px solid rgba(255,255,255,.12);border-radius:50%;color:var(--primary);font-size:1.3rem;transition:all var(--trans);}
-    .ibtn:hover{background:var(--primary);color:var(--bg);box-shadow:var(--glow);}
-    /* ---------- FOOTER ---------- */
-    .footer{font-size:.8rem;color:var(--muted);text-align:center;padding:2rem 1rem;}
-    /* ---------- LOADER ---------- */
-    .loader{width:24px;height:24px;border:3px solid var(--primary);border-top-color:transparent;border-radius:50%;margin:.75rem auto;animation:spin .6s linear infinite;}
+    .ibar{display:flex;justify-content:center;gap:1.2rem;margin-top:2rem;}
+    .ibtn{width:40px;height:40px;display:grid;place-items:center;background:var(--card);border:1px solid var(--primary);border-radius:50%;color:var(--primary);font-size:1.25rem;transition:all var(--trans);}
+    .ibtn:hover{background:var(--primary);color:var(--bg);}
+    .footer{text-align:center;padding:2rem 1rem;font-size:.8rem;color:var(--muted);}
+    .loader{width:24px;height:24px;border:3px solid var(--primary);border-top-color:transparent;border-radius:50%;margin:.5rem auto;animation:spin .6s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
-    /* ---------- RESPONSIVE ---------- */
-    @media(max-width:480px){.card{padding:1.5rem 1rem;}.title{font-size:1.5rem;}}
+    .reveal{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;}
+    .copy-btn{position:absolute;right:.5rem;top:.5rem;background:none;border:none;color:var(--primary);cursor:pointer;font-size:1rem;}
+    @media(max-width:480px){.container{max-width:96vw;padding:1.5rem 1rem;}}
   </style>
 </head>
 <body>
