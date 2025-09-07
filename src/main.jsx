@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
 import { obfuscateJS, deobfuscateJS } from "./obfuscate";
-import { obfuscatePy, deobfuscatePy } from "./obfuscate";
 
 const API = "https://cybix-v3-3.onrender.com";
 
@@ -20,35 +19,12 @@ function Navbar({ logged, admin, onLogout }) {
   );
 }
 
-// Simple code obfuscator for demo; use a real JS obfuscator in production
-function obfuscateCode(code, lang) {
-  if (lang === "javascript" || lang === "react" || lang === "typescript") {
-    // Use a real JS obfuscator like javascript-obfuscator in production!
-    return obfuscateJS(code);
-  }
-  if (lang === "python") {
-    return obfuscatePy(code);
-  }
-  // For other languages do base64 for now
-  return btoa(code);
-}
-function deobfuscateCode(code, lang) {
-  if (lang === "javascript" || lang === "react" || lang === "typescript") {
-    return deobfuscateJS(code);
-  }
-  if (lang === "python") {
-    return deobfuscatePy(code);
-  }
-  // For other languages do base64 for now
-  try { return atob(code); } catch { return code; }
-}
-
 function Auth({ onLogin, onSignup }) {
   const [view, setView] = useState("login");
   return (
     <div className="container">
       <div className="section-title">Welcome to CYBIX TECH</div>
-      <p style={{textAlign:"center",marginBottom:"2em"}}>Obfuscate/Deobfuscate: JS, Python, HTML, CSS, React, TypeScript, Java</p>
+      <p style={{textAlign:"center",marginBottom:"2em"}}>Obfuscate/Deobfuscate: JavaScript, TypeScript, React (100% real)</p>
       {view === "login" ? <LoginForm onLogin={onLogin} /> : <SignupForm onSignup={onSignup} />}
       <div style={{ textAlign: "center", marginTop: "1.2em" }}>
         <button className="btn" onClick={() => setView(view === "login" ? "signup" : "login")}>
@@ -177,41 +153,56 @@ function Home({ user, token, onLogout }) {
   function handleObfuscate(e) {
     e.preventDefault();
     setErr(""); setResult(""); setLoading(true);
-    // Real obfuscation in browser for JS/Py
     try {
-      const obf = obfuscateCode(code, lang);
-      setResult(obf);
+      if (lang === "javascript" || lang === "typescript" || lang === "react") {
+        const obf = obfuscateJS(code);
+        setResult(obf);
+      } else {
+        setErr("Unsupported file type for obfuscation.");
+      }
       setLoading(false);
     } catch (e) {
       setErr("Obfuscation failed.");
       setLoading(false);
     }
   }
+
   function handleDeobfuscate(e) {
     e.preventDefault();
     setErr(""); setResult(""); setLoading(true);
     try {
-      const deobf = deobfuscateCode(code, lang);
-      setResult(deobf);
+      if (lang === "javascript" || lang === "typescript" || lang === "react") {
+        const deobf = deobfuscateJS(code);
+        setResult(deobf);
+      } else {
+        setErr("Unsupported file type for deobfuscation.");
+      }
       setLoading(false);
     } catch (e) {
       setErr("Deobfuscation failed.");
       setLoading(false);
     }
   }
+
   function downloadResult() {
     const blob = new Blob([result], { type: "text/plain" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename || "output.txt";
+    a.download = filename || "output.js";
     document.body.appendChild(a);
     a.click();
     a.remove();
   }
+
   function handleUpload(e) {
     e.preventDefault();
     setErr(""); setLoading(true);
+    if (!file || !file.name.endsWith('.zip')) {
+      setErr("Only ZIP uploads are supported.");
+      setLoading(false);
+      return;
+    }
     const form = new FormData();
     form.append("zip", file);
     axios.post(API + "/upload", form, { headers: { Authorization: "Bearer " + token }, responseType: "blob" })
@@ -250,12 +241,8 @@ function Home({ user, token, onLogout }) {
             <select value={lang} onChange={e => setLang(e.target.value)} required>
               <option value="">Select language</option>
               <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-              <option value="html">HTML</option>
-              <option value="css">CSS</option>
-              <option value="react">React</option>
               <option value="typescript">TypeScript</option>
-              <option value="java">Java</option>
+              <option value="react">React</option>
             </select>
           </div>
           <div className="form-group">
@@ -267,13 +254,13 @@ function Home({ user, token, onLogout }) {
           {err && <div className="error">{err}</div>}
           {result && <>
             <textarea rows="6" style={{width:"100%",marginTop:"1em"}} value={result} readOnly />
-            <button className="download-btn" onClick={downloadResult}>Download as {filename || "output.txt"}</button>
+            <button className="download-btn" onClick={downloadResult}>Download as {filename || "output.js"}</button>
           </>}
         </form>
       ) : null}
       {tab === "upload" && user.premium ? (
         <form className="filebox" onSubmit={handleUpload}>
-          <h3>Upload ZIP of code files</h3>
+          <h3>Upload ZIP of JavaScript/TypeScript/React files</h3>
           <input type="file" accept=".zip" onChange={e => setFile(e.target.files[0])} required />
           <input type="submit" className="btn" value={loading ? "Uploading..." : "Upload & Obfuscate"} disabled={loading} />
           {loading && <div className="loading"></div>}
@@ -343,7 +330,7 @@ function App() {
       ) : (
         <Home user={user} token={token} onLogout={handleLogout} />
       )}
-      <div className="footer">© CYBIX TECH {new Date().getFullYear()} | Developed by Jaden Afrix</div>
+      <div className="footer">© CYBIX TECH {new Date().getFullYear()} | Designed by CYBIX TECH</div>
     </>
   );
 }
