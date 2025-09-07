@@ -114,7 +114,7 @@
     /* Container */
     .container {
       width: 100%;
-      max-width: 800px; /* Wider for better layout */
+      max-width: 500px; /* Constrained width for forms */
       display: flex;
       flex-direction: column;
       gap: var(--spacing-lg);
@@ -127,12 +127,14 @@
       padding: var(--spacing-lg);
       box-shadow: var(--shadow);
       transition: var(--transition);
+      width: 100%; /* Ensure card takes full container width */
     }
     .card:hover {
         box-shadow: var(--shadow-lg);
     }
     .card-header {
         margin-bottom: var(--spacing-md);
+        text-align: center; /* Center title/subtitle */
     }
     .card-title {
         font-size: 1.5rem;
@@ -171,6 +173,7 @@
       padding: var(--spacing-sm);
       font-size: 1rem;
       transition: var(--transition);
+      width: 100%; /* Ensure inputs take full width */
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
@@ -239,6 +242,20 @@
     }
     .btn-block {
         width: 100%;
+    }
+    .btn-nav {
+        background: none;
+        border: none;
+        color: var(--color-primary);
+        font-weight: 500;
+        cursor: pointer;
+        padding: var(--spacing-xs) 0;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+    }
+    .btn-nav:hover {
+        color: var(--color-primary-hover);
     }
 
     /* Notifications */
@@ -434,6 +451,10 @@
             width: 40px;
             height: 40px;
             font-size: 1.2rem;
+        }
+        .container {
+             max-width: 100%; /* Full width on small screens */
+             padding: 0 var(--spacing-xs); /* Add some side padding */
         }
     }
   </style>

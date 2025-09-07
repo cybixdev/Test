@@ -77,7 +77,7 @@ const IconBar = () => (
 const PasswordInput = ({ value, onChange, placeholder, id }) => { // Added id prop
   const [show, setShow] = useState(false);
   return (
-    <div className="form-group">
+    <div className="form-group" style={{ position: 'relative' }}> {/* Relative for absolute button */}
       <input
         id={id} // Associate label with input
         type={show ? "text" : "password"}
@@ -101,17 +101,18 @@ const PasswordInput = ({ value, onChange, placeholder, id }) => { // Added id pr
 };
 
 /* ---------- LOGIN FORM ---------- */
-const LoginForm = ({ onLogin, toast }) => {
+const LoginForm = ({ onLogin, toast, onSwitchToSignup }) => { // Added onSwitchToSignup prop
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [robot, setRobot] = useState(false);
-  const [err, setErr] = useState("");
   const [load, setLoad] = useState(false);
 
   const submit = async e => {
     e.preventDefault();
-    setErr("");
-    if (!robot) return setErr("Please confirm you are not a robot.");
+    if (!robot) {
+        toast.addToast("Please confirm you are not a robot.", "error");
+        return;
+    }
     setLoad(true);
     try {
       const { data } = await axios.post(API + "/user/login", { identifier: id, password: pwd });
@@ -119,46 +120,56 @@ const LoginForm = ({ onLogin, toast }) => {
       onLogin(data.token, data.user);
     } catch (e) {
       const errorMsg = e.response?.data?.error || "Login failed. Please try again.";
-      setErr(errorMsg);
       toast.addToast(errorMsg, "error");
     }
     setLoad(false);
   };
 
   return (
-    <form onSubmit={submit} className="form">
-      <div className="form-group">
-        <label htmlFor="login-identifier" className="form-label">Username or Email</label>
-        <input
-          id="login-identifier"
-          type="text"
-          placeholder="e.g., john_doe or john@example.com"
-          value={id}
-          onChange={e => setId(e.target.value)}
-          required
-          className="form-input"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="login-password" className="form-label">Password</label>
-        <PasswordInput id="login-password" value={pwd} onChange={e => setPwd(e.target.value)} placeholder="Your password" />
-      </div>
-      <div className="form-group">
-        <label className="form-checkbox-group">
-          <input type="checkbox" checked={robot} onChange={e => setRobot(e.target.checked)} className="form-checkbox" required />
-          <span>I am not a robot</span>
-        </label>
-      </div>
-      <button className="btn btn-primary btn-block" disabled={load}>
-        {load ? <div className="loader" /> : "Login"}
-      </button>
-      {/* Error message removed from here as toast handles it */}
-    </form>
+    <div className="card"> {/* Wrap in card */}
+        <div className="card-header">
+            <h2 className="card-title">Welcome Back</h2>
+            <p className="card-subtitle">Log in to your CYBIX TECH account.</p>
+        </div>
+        <form onSubmit={submit} className="form">
+            <div className="form-group">
+                <label htmlFor="login-identifier" className="form-label">Username or Email</label>
+                <input
+                id="login-identifier"
+                type="text"
+                placeholder="e.g., john_doe or john@example.com"
+                value={id}
+                onChange={e => setId(e.target.value)}
+                required
+                className="form-input"
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="login-password" className="form-label">Password</label>
+                <PasswordInput id="login-password" value={pwd} onChange={e => setPwd(e.target.value)} placeholder="Your password" />
+            </div>
+            <div className="form-group">
+                <label className="form-checkbox-group">
+                <input type="checkbox" checked={robot} onChange={e => setRobot(e.target.checked)} className="form-checkbox" required />
+                <span>I am not a robot</span>
+                </label>
+            </div>
+            <button className="btn btn-primary btn-block" disabled={load}>
+                {load ? <div className="loader" /> : "Login"}
+            </button>
+            <div style={{ textAlign: 'center', marginTop: 'var(--spacing-sm)' }}>
+                <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-xs)' }}>Don't have an account?</p>
+                <button type="button" className="btn-nav" onClick={onSwitchToSignup}> {/* Navigation Button */}
+                    Sign Up for CYBIX TECH
+                </button>
+            </div>
+        </form>
+    </div>
   );
 };
 
 /* ---------- SIGNUP FORM ---------- */
-const SignupForm = ({ onLogin, toast }) => {
+const SignupForm = ({ onLogin, toast, onSwitchToLogin }) => { // Added onSwitchToLogin prop
   const [name, setName] = useState("");
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
@@ -166,12 +177,10 @@ const SignupForm = ({ onLogin, toast }) => {
   const [cp, setCp] = useState("");
   const [code, setCode] = useState("");
   const [robot, setRobot] = useState(false);
-  // Removed local error/success state, rely on toast
   const [load, setLoad] = useState(false);
 
   const submit = async e => {
     e.preventDefault();
-    // Removed local error/success state, rely on toast
     if (!robot) {
         toast.addToast("Please confirm you are not a robot.", "error");
         return;
@@ -193,7 +202,7 @@ const SignupForm = ({ onLogin, toast }) => {
   };
 
   return (
-    <div className="card">
+    <div className="card"> {/* Wrap in card */}
       <div className="card-header">
         <h2 className="card-title">Create Account</h2>
         <p className="card-subtitle">Join CYBIX TECH to start obfuscating your code.</p>
@@ -262,7 +271,7 @@ const SignupForm = ({ onLogin, toast }) => {
               className="form-input"
               style={{ flexGrow: 1 }}
             />
-            <a className="btn btn-outline" href="https://t.me/cybixwebsite_bot" target="_blank" rel="noreferrer">
+            <a className="btn btn-outline btn-sm" href="https://t.me/cybixwebsite_bot" target="_blank" rel="noreferrer" style={{ flexShrink: 0 }}> {/* Prevent button from shrinking */}
               {ICONS.bot} Get Code
             </a>
           </div>
@@ -270,7 +279,12 @@ const SignupForm = ({ onLogin, toast }) => {
         <button className="btn btn-primary btn-block" disabled={load}>
           {load ? <div className="loader" /> : "Sign Up"}
         </button>
-        {/* Success/Error messages removed, handled by toast */}
+        <div style={{ textAlign: 'center', marginTop: 'var(--spacing-sm)' }}>
+            <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-xs)' }}>Already have an account?</p>
+            <button type="button" className="btn-nav" onClick={onSwitchToLogin}> {/* Navigation Button */}
+                Log in to your account
+            </button>
+        </div>
       </form>
     </div>
   );
@@ -283,7 +297,6 @@ const ObfuscatePanel = ({ token, toast }) => {
   const [type, setType] = useState("default");
   const [reps, setReps] = useState(1);
   const [result, setResult] = useState("");
-  const [err, setErr] = useState("");
   const [load, setLoad] = useState(false);
   const [copied, setCopied] = useState(false);
   const textareaRef = useRef(null); // Ref for textarea focus
@@ -296,7 +309,7 @@ const ObfuscatePanel = ({ token, toast }) => {
 
   const run = async e => {
     e.preventDefault();
-    setErr(""); setResult(""); setLoad(true);
+    setResult(""); setLoad(true);
     if (!code.trim()) {
         toast.addToast("Please enter code to obfuscate.", "error");
         setLoad(false);
@@ -313,7 +326,6 @@ const ObfuscatePanel = ({ token, toast }) => {
       toast.addToast("Code obfuscated successfully!", "success");
     } catch (e) {
       const errorMsg = e.response?.data?.error || "Error occurred during obfuscation.";
-      setErr(errorMsg); // Keep local error for display below form if needed
       toast.addToast(errorMsg, "error");
     }
     setLoad(false);
@@ -372,7 +384,6 @@ const ObfuscatePanel = ({ token, toast }) => {
         <button className="btn btn-primary btn-block" disabled={load}>
           {load ? <div className="loader" /> : <>Obfuscate {ICONS.bot}</>}
         </button>
-        {/* Error message removed, handled by toast */}
         {result && (
           <div className="form-group">
             <label className="form-label">Obfuscated Code</label>
@@ -393,7 +404,6 @@ const ObfuscatePanel = ({ token, toast }) => {
 const ZipObfuscatePanel = ({ token, toast }) => {
   const [file, setFile] = useState(null);
   const [drag, setDrag] = useState(false);
-  const [err, setErr] = useState("");
   const [load, setLoad] = useState(false);
   const fileInputRef = useRef(null); // Ref for hidden file input
 
@@ -444,7 +454,7 @@ const ZipObfuscatePanel = ({ token, toast }) => {
         toast.addToast("Please select a ZIP file first.", "error");
         return;
     }
-    setErr(""); setLoad(true);
+    setLoad(true);
     const fd = new FormData();
     fd.append("zip", file);
     try {
@@ -469,7 +479,6 @@ const ZipObfuscatePanel = ({ token, toast }) => {
     } catch (e) {
       console.error("Upload Error:", e); // Log for debugging
       const errorMsg = e.response?.data?.text || e.response?.data || "Upload failed. Please ensure the file is valid and try again."; // Handle potential text error message
-      setErr(errorMsg);
       toast.addToast(errorMsg, "error");
     }
     setLoad(false);
@@ -515,7 +524,6 @@ const ZipObfuscatePanel = ({ token, toast }) => {
         <button className="btn btn-primary btn-block" disabled={load || !file}>
           {load ? <div className="loader" /> : <>Upload & Obfuscate {ICONS.upload}</>}
         </button>
-        {/* Error message removed, handled by toast */}
       </form>
     </div>
   );
@@ -557,6 +565,7 @@ const Home = ({ user, token, onLogout, toast }) => {
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [user, setUser] = useState(token ? JSON.parse(localStorage.getItem("user") || "null") : null);
+  const [currentView, setCurrentView] = useState('login'); // State to manage view
   const toast = useToast(); // Initialize toast hook
 
   const login = (tok, usr) => {
@@ -569,8 +578,20 @@ const App = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setToken(""); setUser(null);
+    setCurrentView('login'); // Reset view to login on logout
     toast.addToast("You have been logged out.", "info");
   };
+
+  // Handler to switch to Signup view
+  const handleSwitchToSignup = () => {
+    setCurrentView('signup');
+  };
+
+  // Handler to switch to Login view
+  const handleSwitchToLogin = () => {
+    setCurrentView('login');
+  };
+
 
   return (
     <AuthCtx.Provider value={{ token, user }}>
@@ -580,18 +601,9 @@ const App = () => {
           <>
             <div className="main-content">
                 <div className="container">
-                    <div className="card">
-                        <div className="card-header">
-                            <h1 className="card-title">Welcome to CYBIX TECH</h1>
-                            <p className="card-subtitle">Securely obfuscate your source code. Supported languages: JavaScript, Python, HTML, CSS, React, TypeScript, Java.</p>
-                        </div>
-                        <LoginForm onLogin={login} toast={toast} />
-                        <div style={{ textAlign: 'center', marginTop: 'var(--spacing-md)' }}>
-                            <p style={{ color: 'var(--color-text-secondary)' }}>New user?</p>
-                            <a href="#signup" className="btn btn-outline">Create Account</a>
-                        </div>
-                    </div>
-                    <SignupForm onLogin={login} toast={toast} />
+                    {/* Conditionally render Login or Signup form */}
+                    {currentView === 'login' && <LoginForm onLogin={login} toast={toast} onSwitchToSignup={handleSwitchToSignup} />}
+                    {currentView === 'signup' && <SignupForm onLogin={login} toast={toast} onSwitchToLogin={handleSwitchToLogin} />}
                 </div>
                 <IconBar />
             </div>
